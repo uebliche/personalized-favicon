@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.nio.file.Path;
 
-@Plugin(id = "personalizedfavicon", name = "PersonalizedFavicon", version = "@version@", description = "PersonalizedFavicon plugin for Velocity", authors = {"Freddi"}, url = "https://discord.gg/freddi")
+@Plugin(id = "personalizedfavicon", name = "PersonalizedFavicon", version = "{{ VERSION }}", description = "PersonalizedFavicon plugin for Velocity", authors = {"Freddi"}, url = "https://discord.gg/freddi")
 public class VelocityPlugin {
 
     private final Metrics.Factory metricsFactory;

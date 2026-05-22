@@ -1,2 +1,61 @@
-rootProject.name = 'PersonalizedFavicon'
+pluginManagement {
+	resolutionStrategy {
+		eachPlugin {
+			if (requested.id.id == "net.uebliche.mcmeta") {
+				def requestedVersion = requested.version
+					?: gradle.startParameter.projectProperties.get("mcmetaPluginVersion")
+					?: System.getenv("MCMETA_PLUGIN_VERSION")
+					?: "0.1.0"
+				useModule("net.uebliche:mcmeta-gradle:${requestedVersion}")
+			}
+			if (requested.id.id in ["fabric-loom", "net.fabricmc.fabric-loom", "net.fabricmc.fabric-loom-remap"]) {
+				def requestedVersion = requested.version
+				if (!requestedVersion && gradle.ext.has("fabricLoomVersion")) {
+					requestedVersion = gradle.ext.fabricLoomVersion?.toString()
+				}
+				if (requestedVersion != null && requestedVersion.toString().trim()) {
+					useModule("net.fabricmc:fabric-loom:${requestedVersion}")
+				}
+			}
+		}
+	}
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
 
+def resolveMcmetaPluginDir = {
+    def override = gradle.startParameter.projectProperties.get("mcmetaPluginPath")?.trim()
+    if (!override) {
+        override = System.getenv("MCMETA_PLUGIN_PATH")
+    }
+    if (override) {
+        def candidate = new File(override)
+        if (!candidate.isAbsolute()) {
+            candidate = new File(settingsDir, override)
+        }
+        return candidate
+    }
+    def candidates = [
+            new File(settingsDir, "../../tools/mcmeta-gradle/gradle-plugin"),
+            new File(settingsDir, "../../web/mcmeta/gradle-plugin"),
+            new File(settingsDir, "../../../mcmeta/gradle-plugin")
+    ]
+    return candidates.find { it.exists() }
+}
+
+def mcmetaPluginDir = resolveMcmetaPluginDir()
+def mcmetaPluginAvailable = mcmetaPluginDir != null && mcmetaPluginDir.exists()
+if (mcmetaPluginAvailable) {
+    includeBuild(mcmetaPluginDir) {
+        dependencySubstitution {
+            substitute(module("net.uebliche:mcmeta-gradle")).using(project(":"))
+        }
+    }
+}
+
+gradle.ext.mcmetaPluginAvailable = mcmetaPluginAvailable
+gradle.ext.mcmetaPluginDir = mcmetaPluginDir
+
+rootProject.name = 'PersonalizedFavicon'

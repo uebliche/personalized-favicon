@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class UpdateChecker {
 
 
-    public static UpdateChecker instance = new UpdateChecker("@version@");
+    public static UpdateChecker instance = new UpdateChecker("{{ VERSION }}");
 
     private Release[] releases;
 

@@ -1,10 +1,56 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
+buildscript {
+    if (gradle.ext.has("mcmetaPluginAvailable") && gradle.ext.mcmetaPluginAvailable) {
+        repositories {
+            mavenCentral()
+        }
+        def mcmetaVersion = (project.findProperty("mcmetaPluginVersion")
+                ?: System.getenv("MCMETA_PLUGIN_VERSION")
+                ?: "0.1.0").toString()
+        dependencies {
+            classpath "net.uebliche:mcmeta-gradle:${mcmetaVersion}"
+        }
+    }
+}
+
 plugins {
     id 'java'
-    id 'net.kyori.blossom' version  '1.3.1'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'net.kyori.blossom' version  '2.1.0'
+    id 'com.gradleup.shadow' version '9.3.1'
     id 'io.freefair.lombok' version '8.1.0'
+}
+
+def resolveMinecraftVersion = { Project target ->
+    def candidates = [
+            target.findProperty("mcVersion"),
+            target.findProperty("minecraft_version"),
+            target.rootProject.findProperty("mcVersion"),
+            target.rootProject.findProperty("minecraft_version")
+    ]
+    candidates.find { it }?.toString()
+}
+
+def mcmetaAvailable = gradle.ext.has("mcmetaPluginAvailable") && gradle.ext.mcmetaPluginAvailable
+if (mcmetaAvailable) {
+    try {
+        apply plugin: 'net.uebliche.mcmeta'
+        def requestedMcVersion = resolveMinecraftVersion(project)
+        mcmeta {
+            autoLoad = false
+            if (requestedMcVersion) {
+                minecraftVersion = requestedMcVersion
+            }
+            repositories {
+                all()
+            }
+        }
+        if (requestedMcVersion) {
+            mcmeta.resolveNow(project)
+        }
+    } catch (Exception ex) {
+        logger.lifecycle("mcmeta plugin unavailable: ${ex.message}")
+    }
 }
 
 group = 'io.freddi.personalizedfavicon'
@@ -17,7 +63,7 @@ if (versionPropsFile.exists()) {
 }
 
 // Die Versionsnummer aus der version.properties-Datei abrufen
-def version = versionProps['version'] ?: 'unknown'
+def version = project.findProperty("tag")?.toString()?.trim() ?: versionProps['version'] ?: 'unknown'
 
 defaultTasks 'shadowJar'
 
@@ -61,9 +107,14 @@ def getGitCommitDescription() {
     return 'git rev-parse --short HEAD'.execute().text.trim()
 }
 
-blossom {
-    replaceToken("@version@", version +"-"+ getGitCommitDescription(), "src/main/java/io/freddi/personalizedfavicon/velocity/VelocityPlugin.java")
-    replaceToken("@version@", version +"-"+ getGitCommitDescription(), "src/main/java/io/freddi/personalizedfavicon/utils/UpdateChecker.java")
+sourceSets {
+    main {
+        blossom {
+            javaSources {
+                property("VERSION", version + "-" + getGitCommitDescription())
+            }
+        }
+    }
 }
 
 configurations {
