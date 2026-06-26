@@ -16,9 +16,9 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'net.kyori.blossom' version  '2.1.0'
-    id 'com.gradleup.shadow' version '9.3.1'
-    id 'io.freefair.lombok' version '8.1.0'
+    id 'net.kyori.blossom' version  '2.2.0'
+    id 'com.gradleup.shadow' version '9.4.2'
+    id 'io.freefair.lombok' version '9.5.0'
 }
 
 def resolveMinecraftVersion = { Project target ->
@@ -87,15 +87,15 @@ dependencies {
     annotationProcessor 'com.velocitypowered:velocity-api:3.1.1'
 
     //Bungeecord
-    compileOnly 'net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:26.1-R0.1-SNAPSHOT'
 
     //MongoDB
     implementation 'org.mongodb:mongodb-driver-sync:4.10.1'
     implementation 'dev.morphia.morphia:morphia-core:2.3.5'
 
     //Adventure
-    implementation "net.kyori:adventure-text-minimessage:4.14.0"
-    implementation "net.kyori:adventure-platform-bungeecord:4.3.0"
+    implementation "net.kyori:adventure-text-minimessage:5.1.1"
+    implementation "net.kyori:adventure-platform-bungeecord:4.4.1"
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.9'
