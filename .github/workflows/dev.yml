@@ -25,6 +25,7 @@ jobs:
     - name: Build
       run: ./gradlew clean shadowJar
     - name: Latest
+      if: github.event_name == 'push'
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
