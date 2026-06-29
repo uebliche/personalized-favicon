@@ -90,7 +90,7 @@ dependencies {
     compileOnly 'net.md-5:bungeecord-api:26.1-R0.1-SNAPSHOT'
 
     //MongoDB
-    implementation 'org.mongodb:mongodb-driver-sync:4.10.1'
+    implementation 'org.mongodb:mongodb-driver-sync:5.8.0'
     implementation 'dev.morphia.morphia:morphia-core:2.3.5'
 
     //Adventure
