@@ -94,7 +94,7 @@ dependencies {
     implementation 'dev.morphia.morphia:morphia-core:2.3.5'
 
     //Adventure
-    implementation "net.kyori:adventure-text-minimessage:5.1.1"
+    implementation "net.kyori:adventure-text-minimessage:5.2.0"
     implementation "net.kyori:adventure-platform-bungeecord:4.4.1"
 
     // Gson
