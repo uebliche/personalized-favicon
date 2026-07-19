@@ -4,14 +4,12 @@ permissions:
   contents: write
 
 on:
-  pull_request:
-    branches: [ "master" ]
   push:
     branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, luna, java]
     steps:
     - name: Checkout
       uses: actions/checkout@v7
@@ -29,7 +27,7 @@ jobs:
       run: ./gradlew clean shadowJar
     - name: Latest
       if: github.event_name == 'push'
-      uses: anton-yurchenko/git-release@main
+      uses: anton-yurchenko/git-release@ec9c5b5c36b27eaffc628785b9183eae54601200 # v6.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED: "update"
