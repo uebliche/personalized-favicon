@@ -83,8 +83,8 @@ repositories {
 
 dependencies {
     //Velocity
-    compileOnly 'com.velocitypowered:velocity-api:3.4.0'
-    annotationProcessor 'com.velocitypowered:velocity-api:3.4.0'
+    compileOnly 'com.velocitypowered:velocity-api:3.5.1'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.5.1'
 
     //Bungeecord
     compileOnly 'net.md-5:bungeecord-api:26.1-R0.1-SNAPSHOT'
