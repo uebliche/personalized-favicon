@@ -16,7 +16,7 @@ import io.freddi.personalizedfavicon.utils.Messages;
 import io.freddi.personalizedfavicon.utils.UpdateChecker;
 import org.slf4j.Logger;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.nio.file.Path;
 
 @Plugin(id = "personalizedfavicon", name = "PersonalizedFavicon", version = "{{ VERSION }}", description = "PersonalizedFavicon plugin for Velocity", authors = {"Freddi"}, url = "https://discord.gg/freddi")
