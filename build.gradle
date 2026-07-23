@@ -91,7 +91,7 @@ dependencies {
 
     //MongoDB
     implementation 'org.mongodb:mongodb-driver-sync:5.9.0'
-    implementation 'dev.morphia.morphia:morphia-core:2.3.5'
+    implementation 'dev.morphia.morphia:morphia-core:2.5.3'
 
     //Adventure
     implementation "net.kyori:adventure-text-minimessage:5.2.0"
